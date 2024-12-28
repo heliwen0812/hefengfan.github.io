@@ -17831,7 +17831,7 @@ Ge.default = Ge;
 var oC = Ge
   , iC = {
     gui: {
-        pikafishAnalyze: "\u76AE\u5361\u9C7C",
+        pikafishAnalyze: "丰帆分析",
         chessDb: "\u4E91\u5E93",
         scoreGraph: "\u5C40\u52BF",
         note: "\u6CE8\u91CA",
@@ -17839,8 +17839,8 @@ var oC = Ge
         noAnalyzeResult: "\u6682\u65E0\u5206\u6790\u7ED3\u679C",
         move: "\u7740\u6CD5",
         score: "\u8BC4\u5206",
-        depth: "\u6DF1\u5EA6",
-        timeCost: "\u8017\u65F6",
+        depth: "层数",
+        timeCost: "时间",
         nps: "NPS",
         chessDbShort: "\u4E91\u5E93",
         redSide: "\u7EA2\u65B9",
@@ -17933,8 +17933,6 @@ var oC = Ge
         browserSupportMultithreading: "\u652F\u6301",
         browserDontSupportMultithreading: "\u4E0D\u652F\u6301",
         noMultithreadingImpact: "\u60A8\u7684\u7EBF\u7A0B\u6570\u5C06\u88AB\u9650\u5236\u5728 1",
-        contactUs: "\u8F6F\u4EF6\u95EE\u9898\u4EA4\u6D41\u8BA8\u8BBA",
-        welcomeToJoin: "\u6B22\u8FCE\u52A0\u5165QQ\u7FA4\uFF1A829220986",
         skinEnums: {
             defaultPieceSkin: "\u9ED8\u8BA4\u68CB\u5B50",
             defaultBoardSkin: "\u9ED8\u8BA4\u68CB\u76D8"
@@ -17943,13 +17941,7 @@ var oC = Ge
         showMoveVariantArrowDesc: "\u663E\u793A\u6307\u793A\u4E0B\u4E00\u6B65\u68CB\u7684\u7BAD\u5934"
     },
     about: {
-        introduction: "\u76AE\u5361\u9C7C\u7F51\u9875\u7248\u662F\u4E00\u6B3E\u5F00\u6E90\u514D\u8D39\uFF0C\u5185\u7F6E\u4E86NNUE\u8C61\u68CB\u5F15\u64CE\u7684\u5206\u6790\u754C\u9762\uFF0C\u7531 Vincentzyx \u4E3B\u5BFC\u5F00\u53D1\u3002",
-        thanksForSupport: "\u611F\u8C22\u5404\u4F4D\u5BF9\u76AE\u5361\u9C7C\u7F51\u9875\u7248\u5F00\u53D1\u7684\u652F\u6301\uFF1A",
-        thanksPikacat: "Pikacat: \u76AE\u5361\u9C7C\u4E3B\u8981\u5F00\u53D1\u8005",
-        thanksDblue: "d:blue: \u5B9E\u73B0\u4E86\u76AE\u5361\u9C7C WebAssembly",
-        thanksPikafishTeams: "\u76AE\u5361\u9C7C\u56E2\u961F\u7684\u5176\u4ED6\u6210\u5458: \u6280\u672F\u6307\u5BFC\u3001\u6D4B\u8BD5\u3001\u5EFA\u8BAE\u3001\u652F\u6301",
-        thanksTesting: "\u611F\u8C22\u957F\u5B89\u3001afkbad\u3001huorongrong\u3001\u5361\u5361\u7B49\u7FA4\u91CC\u4E00\u8D77\u8BA8\u8BBA\u4EA4\u6D41\u7684\u5C0F\u4F19\u4F34\u4EEC\u3002",
-        qqGroupInfo: "\u5982\u679C\u60A8\u6709\u4EFB\u4F55\u95EE\u9898\u6216\u5EFA\u8BAE\uFF0C\u6B22\u8FCE\u52A0\u5165QQ\u7FA4\uFF1A829220986"
+        introduction: "丰帆象棋采用了最先进的nnue算法，已经远超人类棋手，欢迎挑战学习",
     }
 }
   , aC = {
