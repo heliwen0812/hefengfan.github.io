@@ -471,7 +471,6 @@ class Y1 {
                   , n = "depth seldepth time nodes pv multipv score currmove currmovenumber hashfull nps tbhits cpuload string refutation currline".split(" ");
                 if (i === "info") {
                 let a = {};
-                let historyvalue = -1000;
                 for (let o = 1; o < r.length; o++) {
                     if (r[o] === "pv") {
                         a[r[o]] = r.slice(o + 1).join(" ");
@@ -487,12 +486,12 @@ class Y1 {
                                 parseInt(r[o + 6]) / 
                                 (parseInt(r[o + 4]) + parseInt(r[o + 5]) + parseInt(r[o + 6]))
                             ));
-                            if (cpValue >= historyvalue||parseInt(r[o-3])-historydepth>=5) {
+                            if (cpValue >= this.scoree||parseInt(r[o-3])-this.seldepthh>=5) {
                                 if (r[o + 18] !== 'pv' && r[o + 19]) {
-                                    historydepth=parseInt(r[o-4])
-                                    historyvalue = cpValue;
-                                    this.Analyzing = r[o + 18]; // 更新全局变量 bmove
-                                    this.Ready = r[o + 19]; // 更新全局变量 nextmove
+                                    this.seldepthh=parseInt(r[o-3])
+                                    this.scoree = cpValue;
+                                    this.bbest = r[o + 18]; // 更新全局变量 bmove
+                                    this.nbest = r[o + 19]; // 更新全局变量 nextmove
                                 }
                             }
                             a[r[o]] = { cp: cpValue };
@@ -525,9 +524,11 @@ class Y1 {
                     this.InfoEvent(i, a);
                 }
             } else if (i === "bestmove") {
-                let bmove=this.Analyzing
-                let nmove=this.Ready
+                let bmove=this.bbest
+                let nmove=this.nbest
                 this.Analyzing = false;
+                this.seldepthh = 0
+                this.scoree = -1000
                 if (r.length === 4 && r[2] === "ponder") {
                     if (this.BestmoveEvent != null) {
                         if (nmove){
