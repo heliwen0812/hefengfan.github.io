@@ -480,7 +480,7 @@ class Y1 {
                             break
                         } else
                             r[o] === "score" ? r[o + 1] === "cp" ? (a[r[o]] = {
-                                cp: parseInt(3000*(parseInt(r[o + 4])/(parseInt(r[o + 4])+parseInt(r[o + 5])+parseInt(r[o + 6]))-parseInt(r[o + 6])/(parseInt(r[o + 4])+parseInt(r[o + 5])+parseInt(r[o + 6]))))
+                                cp: parseInt(1000*(parseInt(r[o + 4])/(parseInt(r[o + 4])+parseInt(r[o + 5])+parseInt(r[o + 6]))-parseInt(r[o + 6])/(parseInt(r[o + 4])+parseInt(r[o + 5])+parseInt(r[o + 6]))))
                             },
                             o += 2) : r[o + 1] === "mate" ? (a[r[o]] = {
                                 mate: parseInt(r[o + 2])
