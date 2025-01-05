@@ -349,7 +349,7 @@ class Y1 {
             this.Ready = !1;
             let e = this.WasmType;
             console.log(e)
-            if (e.indexOf("multi") !== -1)
+            try{
                 this.Mode = "multi",
                 $1.import(ya + "/" + e + "/pikafish.js").then(()=>{
                     console.log(window.location.origin + ya + "/" + e + "/"),
@@ -371,7 +371,8 @@ class Y1 {
                     )
                 }
                 );
-            else {
+            }
+            catch (r) {
                 if (this.Mode = "single",
                 e === "single")
                     this.Engine = new W1;
