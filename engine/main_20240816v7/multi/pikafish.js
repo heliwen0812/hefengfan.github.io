@@ -41,7 +41,7 @@ B.Z++;
   "undefined" != typeof D && D || a || function(b) {
     function c(l, n, u) {
       var v = new XMLHttpRequest();
-      v.open("GET", "https://xiangqiai.com/engine/main_20240816v7/data/pikafish.data", !0);
+      v.open("GET", "https://hefengfan.github.io/engine/main_20240816v7/single_simd/pikafish.data", !0);
       v.responseType = "arraybuffer";
       v.onprogress = function(h) {
         var q = n;
@@ -305,7 +305,7 @@ var ab = a => a.startsWith("data:application/octet-stream;base64,"), bb;
 bb = "pikafish.wasm";
 if (!ab(bb)) {
   var cb = bb;
-  bb = B.locateFile ? B.locateFile(cb, G) : G + cb;
+  bb = 'https://hefengfan.github.io/engine/main_20240816v7/multi/pikafish.wasm';
 }
 function db(a) {
   if (a == bb && Ka) {
@@ -325,7 +325,7 @@ function eb(a) {
   }).catch(() => db(a));
 }
 function fb(a, b, c) {
-  return eb('https://xiangqiai.com/engine/main_20240816v7/multi/pikafish.wasm').then(d => WebAssembly.instantiate(d, b)).then(c, d => {
+  return eb('https://hefengfan.github.io/engine/main_20240816v7/multi/pikafish.wasm').then(d => WebAssembly.instantiate(d, b)).then(c, d => {
     E(`failed to asynchronously prepare wasm: ${d}`);
     $a(d);
   });
