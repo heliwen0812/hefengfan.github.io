@@ -12,6 +12,19 @@
             navigator.serviceWorker.register = () => new Promise(() => {});
         }
     </script>
+    <script>
+		const sabAvailable = typeof SharedArrayBuffer !== "undefined";
+		if('serviceWorker' in navigator) {
+			navigator.serviceWorker.register("sw.js");
+			if(!sabAvailable) {
+				// Use location.reload() could lead to undesirable bfcache,
+				// so we use location.replace instead
+				const reloader = () => location.replace(location.href);
+				// We wait at least one second here, to avoid flashes
+				setTimeout(() => navigator.serviceWorker.ready.then(reloader), 1000);
+			}
+		}
+	</script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5HCDHN4N79"></script>
     <script>
