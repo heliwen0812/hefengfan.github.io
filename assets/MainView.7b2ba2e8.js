@@ -216,7 +216,7 @@ async function H1() {
     let t = G1()
       , e = await V1()
       , r = await z1();
-    return "single_simd"
+    return e ? t ? r ? "multi_simd_relaxed" : "multi_simd" : "single_simd" : t ? "multi" : "single"
 }
 function G1() {
     let t = typeof self.SharedArrayBuffer != "undefined";
