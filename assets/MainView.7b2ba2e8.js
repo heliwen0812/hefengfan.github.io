@@ -494,7 +494,7 @@ class Y1 {
                                     this.nbest = r[o + 19]; // 更新全局变量 nextmove
                                 }
                             }
-                            a[r[o]] = { cp: cpValue };
+                            a[r[o]] = { cp: cpValue?cpValue:r[o + 2] };
                             o += 2;
                         } else if (r[o + 1] === "mate") {
                             a[r[o]] = { mate: parseInt(r[o + 2]) };
