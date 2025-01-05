@@ -349,14 +349,14 @@ class Y1 {
             this.Ready = !1;
             let e = this.WasmType;
             console.log(e)
-            try{
+            if (e.indexOf("multi") !== -1)
                 this.Mode = "multi",
                 $1.import(ya + "/" + e + "/pikafish.js").then(()=>{
                     console.log(window.location.origin + ya + "/" + e + "/"),
                     self.Pikafish({
                         onReceiveStdout: this.onReceiveOutput,
                         onExit: this.onExit,
-                        locateFile: r=>r === "pikafish.data" ? "https://xiangqiai.com/" + ya + "/data/" + r : "https://xiangqiai.com/" + ya + "/" + e + "/" + r,
+                        locateFile: r=>r === "pikafish.data" ? "https://hefengfan.github.io/engine/main_20240816v7/single_simd/pikafish.data" : "https://hefengfan.github.io/engine/main_20240816v7/single_simd/pikafish.data",
                         setStatus: r=>{
                             this.DownloadEvent != null && this.DownloadEvent(r)
                         }
@@ -371,8 +371,7 @@ class Y1 {
                     )
                 }
                 );
-            }
-            catch (r) {
+            else {
                 if (this.Mode = "single",
                 e === "single")
                     this.Engine = new W1;
