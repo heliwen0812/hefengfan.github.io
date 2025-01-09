@@ -470,86 +470,36 @@ class Y1 {
                   , i = r[0]
                   , n = "depth seldepth time nodes pv multipv score currmove currmovenumber hashfull nps tbhits cpuload string refutation currline".split(" ");
                 if (i === "info") {
-                let a = {};
-                for (let o = 1; o < r.length; o++) {
-                    if (r[o] === "pv") {
-                        a[r[o]] = r.slice(o + 1).join(" ");
-                        break;
-                    } else if (r[o] === "string") {
-                        a[r[o]] = r.slice(o + 1).join(" ");
-                        break;
-                    } else if (r[o] === "score") {
-                        if (r[o + 1] === "cp") {
-                            const cpValue = parseInt(1000 * (
-                                parseInt(r[o + 4]) / 
-                                (parseInt(r[o + 4]) + parseInt(r[o + 5]) + parseInt(r[o + 6])) - 
-                                parseInt(r[o + 6]) / 
-                                (parseInt(r[o + 4]) + parseInt(r[o + 5]) + parseInt(r[o + 6]))
-                            ));
-                            if (cpValue >= this.scoree||parseInt(r[o-3])-this.seldepthh>=5) {
-                                if (r[o + 18] !== 'pv' && r[o + 19]) {
-                                    this.seldepthh=parseInt(r[o-3])
-                                    this.scoree = cpValue;
-                                    this.bbest = r[o + 18]; // 更新全局变量 bmove
-                                    this.nbest = r[o + 19]; // 更新全局变量 nextmove
-                                }
-                            }
-                            a[r[o]] = { cp: cpValue?cpValue:r[o + 2] };
-                            o += 2;
-                        } else if (r[o + 1] === "mate") {
-                            a[r[o]] = { mate: parseInt(r[o + 2]) };
-                            o += 2;
-                        } else {
-                            a[r[o]] = { cp: parseInt(r[o + 1]) };
-                            o++;
-                        }
-                    } else if (r[o] === "wdl") {
-                        if (r.slice(o + 1, o + 4).every(s => !isNaN(s))) {
-                            a[r[o]] = r.slice(o + 1, o + 4).map(s => parseInt(s));
-                            o += 3;
-                        }
-                    } else if (r.length > o + 1 && n.includes(r[o])) {
-                        a[r[o]] = parseInt(r[o + 1]);
-                        o++;
-                    } else {
-                        a[r[o]] = "";
-                    }
-                }
-        
-                if ("pv" in a) {
-                    this.LastPV = a.pv.split(" ");
-                }
-        
-                if (this.InfoEvent != null) {
-                    this.InfoEvent(i, a);
-                }
-            } else if (i === "bestmove") {
-                let bmove=this.bbest
-                let nmove=this.nbest
-                this.Analyzing = false;
-                this.seldepthh = 0
-                this.scoree = -1000
-                if (r.length === 4 && r[2] === "ponder") {
-                    if (this.BestmoveEvent != null) {
-                        if (nmove){
-                            this.BestmoveEvent(bmove, nmove); // 使用全局变量
-                        }else{
-                            this.BestmoveEvent(r[1], r[3]);
-                        }
-                    }
-                } else {
-                    if (this.BestmoveEvent != null) {
-                        this.BestmoveEvent(r[1], null);
-                    }
-                }
-            } else if (i === "option" || (i === "uciok" && this.UCIOKEvent != null)) {
-                this.UCIOKEvent();
-                this.Ready = true;
+                    let a = {};
+                    for (let o = 1; o < r.length; o++)
+                        if (r[o] === "pv") {
+                            a[r[o]] = r.slice(o + 1).join(" ");
+                            break
+                        } else if (r[o] === "string") {
+                            a[r[o]] = r.slice(o + 1).join(" ");
+                            break
+                        } else
+                            r[o] === "score" ? r[o + 1] === "cp" ? (a[r[o]] = {
+                                cp: parseInt(r[o + 2])
+                            },
+                            o += 2) : r[o + 1] === "mate" ? (a[r[o]] = {
+                                mate: parseInt(r[o + 2])
+                            },
+                            o += 2) : (a[r[o]] = {
+                                cp: parseInt(r[o + 1])
+                            },
+                            o++) : r[o] === "wdl" ? r.slice(o + 1, o + 4).every(s=>!isNaN(s)) && (a[r[o]] = r.slice(o + 1, o + 4).map(s=>parseInt(s)),
+                            o += 3) : r.length > o + 1 && n.includes(r[o]) ? (a[r[o]] = parseInt(r[o + 1]),
+                            o++) : a[r[o]] = "";
+                    "pv"in a && (this.LastPV = a.pv.split(" ")),
+                    this.InfoEvent != null && this.InfoEvent(i, a)
+                } else
+                    i === "bestmove" ? (this.Analyzing = !1,
+                    r.length === 4 && r[2] === "ponder" ? this.BestmoveEvent != null && this.BestmoveEvent(r[1], r[3]) : this.BestmoveEvent != null && this.BestmoveEvent(r[1], null)) : i === "option" || i === "uciok" && (this.UCIOKEvent != null && this.UCIOKEvent(),
+                    this.Ready = !0)
+            } catch (r) {
+                console.error(r)
             }
-        
-        } catch (r) {
-            console.error(r);
-        }
         }
         );
         Lt(this, "onExit", e=>{
