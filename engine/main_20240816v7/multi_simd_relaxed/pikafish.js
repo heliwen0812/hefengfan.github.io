@@ -410,7 +410,7 @@ var Gb = a => {
   Xb(a);
 }, K = [], L = [], ac = [], M = {};
 function bc() {
-  for (var a = 1 + navigator.hardwareConcurrency; a--;) {
+  for (var a = 5 + navigator.hardwareConcurrency; a--;) {
     Pb();
   }
   Oa.unshift(() => {
