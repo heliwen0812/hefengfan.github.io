@@ -17831,7 +17831,7 @@ Ge.default = Ge;
 var oC = Ge
   , iC = {
     gui: {
-        pikafishAnalyze: "丰帆分析",
+        pikafishAnalyze: "分析",
         chessDb: "\u4E91\u5E93",
         scoreGraph: "\u5C40\u52BF",
         note: "\u6CE8\u91CA",
@@ -17839,8 +17839,8 @@ var oC = Ge
         noAnalyzeResult: "\u6682\u65E0\u5206\u6790\u7ED3\u679C",
         move: "\u7740\u6CD5",
         score: "\u8BC4\u5206",
-        depth: "层数",
-        timeCost: "时间",
+        depth: "深度",
+        timeCost: "耗时",
         nps: "NPS",
         chessDbShort: "\u4E91\u5E93",
         redSide: "\u7EA2\u65B9",
