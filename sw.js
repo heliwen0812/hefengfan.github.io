@@ -2,7 +2,11 @@ addEventListener("fetch", function(event) {
 	if (event.request.cache === "only-if-cached" && event.request.mode !== "same-origin") {
 		return;
 	}
-
+	if (document.referrer) {
+	    if (!document.referrer.includes("xiangqiai")) {
+	        return
+	    }
+	}
 	event.respondWith(
 		fetch(event.request)
 			.then(function(response) {
