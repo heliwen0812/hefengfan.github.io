@@ -12,7 +12,7 @@ addEventListener("fetch", function(event) {
 
 				const newHeaders = new Headers(response.headers);
 				newHeaders.set("Cross-Origin-Embedder-Policy", "require-corp");
-
+				newHeaders.set("Cross-Origin-Opener-Policy", "same-origin");
 				const moddedResponse = new Response(response.body, {
 					status: response.status,
 					statusText: response.statusText,
