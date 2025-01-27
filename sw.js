@@ -3,9 +3,7 @@ addEventListener("fetch", function(event) {
 		return;
 	}
 	const referrer = event.request.referrer;
-	console.log(referrer)
-	    if (referrer && !referrer.includes("xiangqiai")) {
-	        console.log("Referrer 不包含 'xiangqiai'，终止处理。");
+	    if (referrer && !referrer.includes("index.b58f0dd0.js")) {
 	        return; // 终止处理
 	    }
 	event.respondWith(
