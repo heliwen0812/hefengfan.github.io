@@ -2,11 +2,11 @@ addEventListener("fetch", function(event) {
 	if (event.request.cache === "only-if-cached" && event.request.mode !== "same-origin") {
 		return;
 	}
-	if (document.referrer) {
-	    if (!document.referrer.includes("xiangqiai")) {
-	        return
+	const referrer = event.request.referrer;
+	    if (referrer && !referrer.includes("xiangqiai")) {
+	        console.log("Referrer 不包含 'xiangqiai'，终止处理。");
+	        return; // 终止处理
 	    }
-	}
 	event.respondWith(
 		fetch(event.request)
 			.then(function(response) {
