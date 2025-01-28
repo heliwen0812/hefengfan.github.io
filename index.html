@@ -81,16 +81,11 @@ a:hover {
   font-size: 1.8em;
   font-weight: bold;
   color: #2980b9; /* Nice blue color */
-  display: flex;
-  justify-content: center;
-  gap: 10px;
 }
 
 .countdown-unit {
-  background-color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: inline-block; /* Ensure inline display for better spacing */
+    margin: 0 5px; /* Add some spacing between units */
 }
 
 </style>
@@ -107,12 +102,7 @@ a:hover {
 
   <div class="countdown-section">
     <h2 class="countdown-title">距离2027高考还有：</h2>
-    <div class="countdown-display" id="countdown-display">
-      <div class="countdown-unit"><span id="days">0</span>天</div>
-      <div class="countdown-unit"><span id="hours">0</span>小时</div>
-      <div class="countdown-unit"><span id="minutes">0</span>分钟</div>
-      <div class="countdown-unit"><span id="seconds">0</span>秒</div>
-    </div>
+    <div class="countdown-display" id="countdown-display"></div>
   </div>
 </div>
 
@@ -124,19 +114,16 @@ a:hover {
     const timeLeft = targetDate - currentDate;
 
     if (timeLeft < 0) {
-      document.getElementById('countdown-display').innerHTML = "2027高考倒计时已结束！";
+      document.getElementById('countdown-display').textContent = "2027高考倒计时已结束！";
       return;
     }
 
     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    const hours = String(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+    const minutes = String(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+    const seconds = String(Math.floor((timeLeft % (1000 * 60)) / 1000)).padStart(2, '0');
 
-    document.getElementById('days').textContent = days;
-    document.getElementById('hours').textContent = hours;
-    document.getElementById('minutes').textContent = minutes;
-    document.getElementById('seconds').textContent = seconds;
+    document.getElementById('countdown-display').innerHTML = `${days}天 ${hours}时 ${minutes}分 ${seconds}秒`;
   }
 
   setInterval(updateCountdown, 1000);
