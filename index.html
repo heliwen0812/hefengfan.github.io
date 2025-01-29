@@ -7,9 +7,10 @@
 <style>
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ddf3ff; /* 淡蓝背景色 */
+  background-color: #ddf3ff;
   margin: 0;
   padding: 0;
+  line-height: 1.6;
 }
 
 .container {
@@ -36,43 +37,60 @@ body {
 h1 {
   text-align: center;
   color: #333;
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 2.5em;
+  margin-bottom: 30px;
 }
 
 ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
 li {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-a {
-  color: #007bff;
+.link-box {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  background-color: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.link-box:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.link-icon {
+  margin-right: 15px;
+  font-size: 1.2em;
+}
+
+.link-text {
+  font-size: 1.1em;
+  color: #333;
   text-decoration: none;
-  font-size: 20px;
-  transition: color 0.3s;
 }
 
-a:hover {
-  text-decoration: underline;
-  color: #0056b3;
+.link-text:hover {
+  color: #007bff;
 }
 
-/* Countdown Styles - Added */
 .countdown-section {
   margin-top: 30px;
   text-align: center;
-  background-color: #f0f0f0; /* Light gray background */
+  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .countdown-title {
-  font-size: 20px;
+  font-size: 1.2em;
   margin-bottom: 10px;
   color: #333;
 }
@@ -80,24 +98,49 @@ a:hover {
 .countdown-display {
   font-size: 1.8em;
   font-weight: bold;
-  color: #2980b9; /* Nice blue color */
+  color: #2980b9;
 }
 
 .countdown-unit {
-    display: inline-block; /* Ensure inline display for better spacing */
-    margin: 0 5px; /* Add some spacing between units */
+  display: inline-block;
+  margin: 0 5px;
 }
-
 </style>
 </head>
 <body>
 <div class="container">
   <h1>欢迎访问hefengfan(何丰帆)的主页</h1>
   <ul>
-    <li><a href="https://hefengfan.github.io/xiangqiai.html">丰帆象棋</a></li>
-    <li><a href="https://hefengfan.github.io/gomocalcoffline/index.html">五子棋计算器</a></li>
-    <li><a href="https://heliwen0812.github.io/">丰帆音乐</a></li>
-    <li><a href="https://hefengfan.github.io/chatgpt.html">chatgpt</a></li>
+    <li>
+      <div class="link-box">
+        <i class="link-icon fas fa-chess"></i>
+        <a class="link-text" href="https://hefengfan.github.io/xiangqiai.html">丰帆象棋</a>
+      </div>
+    </li>
+    <li>
+      <div class="link-box">
+        <i class="link-icon fas fa-calculator"></i>
+        <a class="link-text" href="https://hefengfan.github.io/gomocalcoffline/index.html">五子棋计算器</a>
+      </div>
+    </li>
+    <li>
+      <div class="link-box">
+        <i class="link-icon fas fa-music"></i>
+        <a class="link-text" href="https://heliwen0812.github.io/">丰帆音乐</a>
+      </div>
+    </li>
+    <li>
+      <div class="link-box">
+        <i class="link-icon fas fa-comment-dots"></i>
+        <a class="link-text" href="https://hefengfan.github.io/chatgpt.html">ChatGPT</a>
+      </div>
+    </li>
+    <li>
+      <div class="link-box">
+        <i class="link-icon fas fa-ruler-combined"></i>
+        <a class="link-text" href="https://hefengfan.github.io/geogebra.html">Geogebra数学工具</a>
+      </div>
+    </li>
   </ul>
 
   <div class="countdown-section">
@@ -107,7 +150,7 @@ a:hover {
 </div>
 
 <script>
-  const targetDate = new Date('2027-06-07T00:00:00'); //高考日期
+  const targetDate = new Date('2027-06-07T00:00:00');
 
   function updateCountdown() {
     const currentDate = new Date();
@@ -130,5 +173,6 @@ a:hover {
   updateCountdown();
 </script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </body>
 </html>
