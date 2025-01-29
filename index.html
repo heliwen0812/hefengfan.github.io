@@ -6,16 +6,17 @@
 <title>hefengfan的主页</title>
 <style>
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #ddf3ff;
   margin: 0;
   padding: 0;
   line-height: 1.6;
+  color: #333;
 }
 
 .container {
   max-width: 800px;
-  margin: 50px auto;
+  margin: 30px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
@@ -36,74 +37,69 @@ body {
 
 h1 {
   text-align: center;
-  color: #333;
   font-size: 2.5em;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  font-weight: bold;
+  color: black; /* Removed text-shadow and animation */
 }
+
 
 ul {
   list-style: none;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 li {
   margin-bottom: 10px;
 }
 
-.link-box {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-  background-color: #f0f0f0;
-  margin-bottom: 10px;
-}
-
-.link-box:hover {
-  background-color: #e0e0e0;
-  cursor: pointer;
-}
-
-.link-icon {
-  margin-right: 15px;
-  font-size: 1.2em;
-}
-
-.link-text {
-  font-size: 1.1em;
-  color: #333;
+a {
+  display: block;
+  padding: 8px 0;
   text-decoration: none;
+  font-size: 1.3em;
+  color: #0077cc;
+  font-weight: bold;
+  transition: color 0.3s;
+  border-radius: 5px;
 }
 
-.link-text:hover {
-  color: #007bff;
+a:hover {
+  color: #005599;
+  background-color: #f0f0f0;
+  text-decoration: underline;
 }
 
 .countdown-section {
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
-  background-color: #f0f0f0;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #f8f8f8;
 }
 
 .countdown-title {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-  color: #333;
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .countdown-display {
-  font-size: 1.8em;
+  font-size: 2.2em;
   font-weight: bold;
   color: #2980b9;
+  animation: countdownBlink 1s infinite alternate;
 }
 
-.countdown-unit {
-  display: inline-block;
-  margin: 0 5px;
+@keyframes countdownBlink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.7;
+  }
 }
 </style>
 </head>
@@ -111,36 +107,11 @@ li {
 <div class="container">
   <h1>欢迎访问hefengfan(何丰帆)的主页</h1>
   <ul>
-    <li>
-      <div class="link-box">
-        <i class="link-icon fas fa-chess"></i>
-        <a class="link-text" href="https://hefengfan.github.io/xiangqiai.html">丰帆象棋</a>
-      </div>
-    </li>
-    <li>
-      <div class="link-box">
-        <i class="link-icon fas fa-calculator"></i>
-        <a class="link-text" href="https://hefengfan.github.io/gomocalcoffline/index.html">五子棋计算器</a>
-      </div>
-    </li>
-    <li>
-      <div class="link-box">
-        <i class="link-icon fas fa-music"></i>
-        <a class="link-text" href="https://heliwen0812.github.io/">丰帆音乐</a>
-      </div>
-    </li>
-    <li>
-      <div class="link-box">
-        <i class="link-icon fas fa-comment-dots"></i>
-        <a class="link-text" href="https://hefengfan.github.io/chatgpt.html">ChatGPT</a>
-      </div>
-    </li>
-    <li>
-      <div class="link-box">
-        <i class="link-icon fas fa-ruler-combined"></i>
-        <a class="link-text" href="https://hefengfan.github.io/geogebra.html">Geogebra数学工具</a>
-      </div>
-    </li>
+    <li><a href="https://hefengfan.github.io/xiangqiai.html">丰帆象棋</a></li>
+    <li><a href="https://hefengfan.github.io/gomocalcoffline/index.html">五子棋计算器</a></li>
+    <li><a href="https://heliwen0812.github.io/">丰帆音乐</a></li>
+    <li><a href="https://hefengfan.github.io/chatgpt.html">ChatGPT</a></li>
+    <li><a href="https://hefengfan.github.io/geogebra.html">Geogebra数学工具</a></li>
   </ul>
 
   <div class="countdown-section">
@@ -172,7 +143,5 @@ li {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 </script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </body>
 </html>
