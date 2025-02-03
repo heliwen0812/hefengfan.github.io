@@ -31620,6 +31620,9 @@ const gy = "XIANGQIAI_COM_"
                 }
             },
             languageList: {
+                "zh-CN": {
+                    name: "\u7B80\u4F53\u4E2D\u6587"
+                },
             },
             isSaving: !1,
             pieceSkinList: [{
