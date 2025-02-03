@@ -17873,8 +17873,8 @@ var oC = Ge
     },
     settings: {
         uiSettings: "\u754C\u9762\u8BBE\u7F6E",
-        language: "",
-        languagePlaceholder: "",
+        language: "\u8BED\u8A00",
+        languagePlaceholder: "Language",
         boardSkin: "\u68CB\u76D8\u76AE\u80A4",
         boardSkinPlaceholder: "\u9009\u62E9\u68CB\u76D8\u76AE\u80A4",
         pieceSkin: "\u68CB\u5B50\u76AE\u80A4",
