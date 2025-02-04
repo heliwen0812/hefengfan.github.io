@@ -349,7 +349,6 @@ class Y1 {
         Lt(this, "initEngine", ()=>{
             this.Ready = !1;
             let e = this.WasmType;
-            console.log(e)
             if (e.indexOf("multi") !== -1)
                 this.Mode = "multi",
                 $1.import(ya + "/" + e + "/pikafish.js").then(()=>{
@@ -357,7 +356,7 @@ class Y1 {
                     self.Pikafish({
                         onReceiveStdout: this.onReceiveOutput,
                         onExit: this.onExit,
-                        locateFile: r=>r === "pikafish.data" ? "https://hefengfan.github.io/engine/main_20240816v7/single_simd/pikafish.data" : "https://hefengfan.github.io/engine/main_20240816v7/single_simd/pikafish.data",
+                        locateFile: r=>r === "pikafish.data" ? window.location.origin + ya + r : window.location.origin + ya + "/" + e + "/" + r,
                         setStatus: r=>{
                             this.DownloadEvent != null && this.DownloadEvent(r)
                         }
