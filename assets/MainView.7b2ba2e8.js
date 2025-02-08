@@ -424,7 +424,6 @@ class Y1 {
         Lt(this, "setOptionList", e=>{
             for (let r in e)
                 this.setOption(r, e[r])
-            this.sendCommand("setoption name UCI_Elo value 3133")
         }
         );
         Lt(this, "go", (e=-1,r=-1,i=-1,n=null)=>{
