@@ -219,7 +219,6 @@ async function H1() {
     return e ? t ? r ? "multi_simd_relaxed" : "multi_simd" : "single_simd" : t ? "multi" : "single"
 }
 function G1() {
-    
     let t = typeof self.SharedArrayBuffer != "undefined";
     return t && (t = new WebAssembly.Memory({
         initial: 1,
@@ -356,7 +355,7 @@ class Y1 {
                     self.Pikafish({
                         onReceiveStdout: this.onReceiveOutput,
                         onExit: this.onExit,
-                        locateFile: r=>r === "pikafish.data" ? window.location.origin + ya + r : window.location.origin + ya + "/" + e + "/" + r,
+                        locateFile: r=>r === "pikafish.data" ? window.location.origin + ya + "/data/" + r : window.location.origin + ya + "/" + e + "/" + r,
                         setStatus: r=>{
                             this.DownloadEvent != null && this.DownloadEvent(r)
                         }
@@ -31581,10 +31580,10 @@ const gy = "XIANGQIAI_COM_"
                 depth: 60,
                 enable_hint: !0,
                 chessdb: {
-                    query: !1,
-                    auto_move: !1,
+                    query: !0,
+                    auto_move: !0,
                     disable_ply: 10,
-                    always_use_egtb: !1
+                    always_use_egtb: !0
                 }
             },
             uiSettings: {
@@ -31598,7 +31597,7 @@ const gy = "XIANGQIAI_COM_"
                 boardSkin: {
                     name: "default",
                     text: this.$t("settings.skinEnums.defaultBoardSkin"),
-                    author: "hefengfan",
+                    author: "Vincentzyx",
                     ext: "webp",
                     params: {
                         gridWidth: 53.7,
@@ -31622,20 +31621,23 @@ const gy = "XIANGQIAI_COM_"
                 "zh-CN": {
                     name: "\u7B80\u4F53\u4E2D\u6587"
                 },
+                "en-US": {
+                    name: "English"
+                }
             },
             isSaving: !1,
             pieceSkinList: [{
                 text: "\u9ED8\u8BA4\u68CB\u5B50",
                 value: "default",
                 description: "\u9ED8\u8BA4\u68CB\u5B50",
-                author: "hefengfan",
+                author: "",
                 ext: "webp"
             }],
             boardSkinList: [{
                 text: "\u9ED8\u8BA4\u68CB\u76D8",
                 value: "default",
                 description: "\u9ED8\u8BA4\u68CB\u76D8",
-                author: "hefengfan",
+                author: "",
                 ext: "webp"
             }],
             showLanguagePicker: !1,
@@ -31941,6 +31943,14 @@ const gy = "XIANGQIAI_COM_"
             this.$i18n.locale = this.uiSettings.language
         },
         getBrowserLanguage() {
+            let t = ["zh-CN", "en-US"]
+              , e = navigator.language || navigator.userLanguage;
+            if (t.includes(e))
+                return e;
+            {
+                let r = ["en", "fr", "de", "it"];
+                return e.split("-")[0]in r ? "en-US" : "zh-CN"
+            }
         },
         updateWindowWidth() {
             this.windowWidth = window.innerWidth,
@@ -32128,7 +32138,7 @@ const gy = "XIANGQIAI_COM_"
                 forbidClick: !0
             });
             try {
-                const i = await ip.post("https://xiangqiai.com/api/board_recognition", r, {
+                const i = await ip.post("https://www.xiangqiai.com/api/board_recognition", r, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     }
