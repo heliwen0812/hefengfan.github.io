@@ -3,9 +3,20 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>hefengfan的主页</title>
   <style>
+    :root {
+      --base-font-size: clamp(14px, 2vw, 18px); /* 动态调整基础字体大小 */
+      --h1-font-size: clamp(2rem, 6vw, 3rem); /* 动态调整标题字体大小 */
+      --link-font-size: clamp(1.5rem, 4vw, 2rem); /* 调大链接字体大小 */
+      --countdown-font: clamp(1.5rem, 5vw, 2.5rem); /* 动态调整倒计时字体大小 */
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       background-color: #ddf3ff;
@@ -13,24 +24,33 @@
       padding: 0;
       line-height: 1.6;
       color: #333;
+      font-size: var(--base-font-size);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* 容器顶部对齐 */
+      padding-top: 10vh; /* 距离顶部10% */
     }
 
     .container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 20px;
+      width: 75vw; /* 容器宽度为视口宽度的75% */
+      max-width: 1200px; /* 最大宽度限制 */
+      padding: 5vh 5vw; /* 内边距 */
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       animation: fadeIn 1s ease;
+      overflow: hidden; /* 禁止内容溢出 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* 内容均匀分布 */
     }
 
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(20px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -39,31 +59,37 @@
 
     h1 {
       text-align: center;
-      font-size: 2.5em;
-      margin-bottom: 40px;
+      font-size: var(--h1-font-size);
+      margin: 0 0 2vh; /* 调整标题间距 */
       font-weight: bold;
       color: black;
+      white-space: nowrap; /* 强制标题不换行 */
     }
 
     ul {
       list-style: none;
       padding: 0;
-      margin-bottom: 20px;
+      margin: 0; /* 去掉默认的外边距 */
+      flex-grow: 1; /* 链接部分占据剩余空间 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* 链接垂直居中 */
     }
 
     li {
-      margin-bottom: 10px;
+      margin: 1.5vh 0;
     }
 
     a {
       display: block;
-      padding: 8px 0;
+      padding: 1.5vh 3vw;
       text-decoration: none;
-      font-size: 1.3em;
+      font-size: var(--link-font-size); /* 使用调整后的字体大小 */
       color: #0077cc;
       font-weight: bold;
-      transition: color 0.3s;
+      transition: all 0.3s;
       border-radius: 5px;
+      touch-action: manipulation;
     }
 
     a:hover {
@@ -73,34 +99,46 @@
     }
 
     .countdown-section {
-      margin-top: 40px;
-      text-align: center;
-      padding: 20px;
+      margin: 2vh 0 0; /* 调整倒计时部分间距 */
+      width: 100%;
+      padding: 2vh 5vw;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       background-color: #f8f8f8;
     }
 
     .countdown-title {
-      font-size: 1.4em;
-      margin-bottom: 20px;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      margin: 0 0 1.5vh;
       font-weight: 600;
     }
 
     .countdown-display {
-      font-size: 2.2em;
+      font-size: var(--countdown-font);
       font-weight: bold;
       color: #2980b9;
-      animation: countdownBlink 1s infinite alternate;
+      word-break: break-word;
     }
 
-    @keyframes countdownBlink {
-      from {
-        opacity: 1;
+    @media (orientation: portrait) {
+      .container {
+        width: 90%; /* 竖屏时调整为90%宽度 */
+        padding: 4vh 4vw; /* 调整竖屏时的内边距 */
       }
+      
+      a {
+        padding: 1.5vh 4vw;
+      }
+    }
 
-      to {
-        opacity: 0.7;
+    @media (max-width: 480px) {
+      :root {
+        --base-font-size: clamp(12px, 3vw, 16px); /* 小屏幕下调整基础字体大小 */
+        --link-font-size: clamp(1.3rem, 4vw, 1.8rem); /* 小屏幕下调整链接字体大小 */
+      }
+      
+      .countdown-display {
+        line-height: 1.3;
       }
     }
   </style>
@@ -108,11 +146,10 @@
 
 <body>
   <div class="container">
-    <h1>欢迎访问hefengfan(何丰帆)的主页</h1>
+    <h1>欢迎访问hefengfan的主页</h1>
     <ul>
       <li><a href="https://hefengfan.github.io/xiangqiai.html">丰帆象棋</a></li>
       <li><a href="https://hefengfan.github.io/gomocalcoffline/index.html">五子棋计算器</a></li>
-      <li><a href="https://heliwen0812.github.io/">丰帆音乐</a></li>
       <li><a href="https://hefengfan.github.io/chatgpt.html">ChatGPT</a></li>
     </ul>
 
@@ -141,7 +178,6 @@
 
       document.getElementById('countdown-display').innerHTML = `${days}天 ${hours}时 ${minutes}分 ${seconds}秒`;
     }
-
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
