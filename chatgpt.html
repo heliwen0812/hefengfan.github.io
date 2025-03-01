@@ -2450,6 +2450,9 @@
                                 <option value="gpt-3.5-turbo">GPT-3.5</option>
                                 <option value="gpt-4o-mini">gpt-4o-mini</option>
                                 <option value="gpt-4">GPT-4(每日可使用三次)</option>
+                                <option value="deepseek-v3">DeepSeek-V3</option>
+                                <option value="deepseek-r1">DeepSeek-R1</option>
+                                <option value="deepseek-llm-67b-chat">DeepSeek-LLM-67B-Chat</option>
                             </select>
                         </div>
                         <div>
@@ -2820,16 +2823,16 @@
                         <div class="setContent setNotNormalFlow">
                             <div class="setTitle" data-i18n-key="aiEndpoint"></div>
                             <div class="setDetail inputDetail" style="position: relative;">
-                                <input class="inputTextClass" placeholder="https://api.openai.com/" autocomplete="off" 
-                                    id="apiHostInput" value="https://api.chatanywhere.com.cn"/>
+                                <input class="inputTextClass" placeholder="" autocomplete="off"
+                                id="apiHostInput" value=""/>
                                 <div id="apiSelect" tabindex="-1" style="display: none;"></div>
                             </div>
                         </div>
                         <div class="setContent" style="margin-top: 83px;">
                             <div class="setTitle" data-i18n-key="aiKey"></div>
                             <div class="setDetail inputDetail apiDetail">
-                                <input class="inputTextClass" type="text" placeholder="sk-xxxxxx" id="keyInput"
-                                    autocomplete="off" style="-webkit-text-security: disc;" value="sk-NJshr8vAAu6BnNVyPQEA9ULNRQpIsNkAYsgViW04RwqcLF0D"/>
+                                <div class="inputTextClass" type="text" placeholder="sk-xxxxxx" id="keyInput"
+                                autocomplete="off" style="-webkit-text-security: disc;" value=""/>
                             </div>
                         </div>
                     </div>
@@ -6712,8 +6715,10 @@
                     else return item;
                 })
                 let headers = { "Content-Type": "application/json" };
-                if (customAPIKey) headers["Authorization"] = "Bearer " + customAPIKey;
-                const res = await fetch(apiHost + API_URL, {
+                if (customAPIKey) {
+                    headers["Authorization"] = "Bearer " + (modelVersion.indexOf('gpt') > -1 ? 'sk-NJshr8vAAu6BnNVyPQEA9ULNRQpIsNkAYsgViW04RwqcLF0D' : 'sk-PRx8SirvbTDMQTq86UuiRchSxxbTL1FU7oGWPGV5X71uPCqO');
+                }
+                const res = await fetch(modelVersion.indexOf('gpt') > -1 ? 'https://api.chatanywhere.com.cn/' + API_URL: 'https://www.deepseekapp.io/' + API_URL, {
                     method: "POST",
                     headers,
                     body: JSON.stringify({
