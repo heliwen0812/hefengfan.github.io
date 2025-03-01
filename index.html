@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>hefengfan的主页</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hefengfan的主页</title>
+<style>
     :root {
-      --base-font-size: clamp(14px, 2vw, 18px); /* 动态调整基础字体大小 */
-      --h1-font-size: clamp(2rem, 6vw, 3rem); /* 动态调整标题字体大小 */
-      --link-font-size: clamp(1.5rem, 4vw, 2rem); /* 调大链接字体大小 */
-      --countdown-font: clamp(1.5rem, 5vw, 2.5rem); /* 动态调整倒计时字体大小 */
+      --base-font-size: clamp(14px, 2vw, 18px);
+      --h1-font-size: clamp(1.8rem, 5vw, 2.5rem); /* 调整字体大小范围 */
+      --link-font-size: clamp(1.5rem, 2vw, 2.2rem);
+      --countdown-font: clamp(1.3rem, 5vw, 2rem);
     }
 
     * {
       box-sizing: border-box;
     }
-
+    
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #ddf3ff;
       margin: 0;
       padding: 0;
@@ -33,7 +32,7 @@
     }
 
     .container {
-      width: 75vw; /* 容器宽度为视口宽度的75% */
+      width: 80vw; /* 容器宽度为视口宽度的80% */
       max-width: 1200px; /* 最大宽度限制 */
       padding: 5vh 5vw; /* 内边距 */
       background-color: #fff;
@@ -77,7 +76,8 @@
     }
 
     li {
-      margin: 1.5vh 0;
+      font-size: var(--link-font-size);
+      margin: 1vh 0;
     }
 
     a {
@@ -141,19 +141,17 @@
         line-height: 1.3;
       }
     }
-  </style>
+</style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>欢迎访问hefengfan的主页</h1>
-    <ul>
-      <li><a href="https://hefengfan.github.io/xiangqiai.html">丰帆象棋</a></li>
-      <li><a href="https://hefengfan.github.io/gomocalcoffline/index.html">五子棋计算器</a></li>
-      <li><a href="https://hefengfan.github.io/chatgpt.html">ChatGPT</a></li>
-    </ul>
-
-    <div class="countdown-section">
+<div class="container">
+  <h1>欢迎访问hefengfan的主页</h1>
+  <ul>
+    <li><a href="https://hefengfan.github.io/xiangqiai">象棋AI</a></li>
+    <li><a href="https://hefengfan.github.io/gomocalcoffline/index">五子棋计算器</a></li>
+    <li><a href="https://hefengfan.github.io/chatgpt">chatgpt</a></li>
+  </ul>
+  <div class="countdown-section">
       <h2 class="countdown-title">距离2027高考还有：</h2>
       <div class="countdown-display" id="countdown-display"></div>
     </div>
@@ -181,6 +179,6 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
+</div>
 </body>
-
 </html>
