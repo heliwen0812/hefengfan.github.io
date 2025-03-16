@@ -2717,15 +2717,15 @@
                     </button>
                 </div>
                 <div id="modelDialog" style="display:none;">
-                    <div class="modelSingle" data-value="deepseek/deepseek-r1:free" data-type="2" data-ver="Deepseek R1 671B">
-                        <div class="modelAvatar">
+                    <div class="modelSingle" data-value="deepseek/deepseek-r1:free:online" data-type="2" data-ver="Deepseek R1 671B">
+                        <div class="modelAvatar gptAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#deepseekIcon"></use>
                             </svg>
                         </div>
                         <div>Deepseek R1 671B</div>
                     </div>
-                    <div class="modelSingle" data-value="deepseek/deepseek-r1-distill-llama-70b:free" data-type="2" data-ver="Deepseek R1 70B">
+                    <div class="modelSingle" data-value="deepseek/deepseek-r1-distill-llama-70b:free:online" data-type="2" data-ver="Deepseek R1 70B">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#deepseekIcon"></use>
@@ -2741,7 +2741,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="modelSingle" data-value="google/gemma-3-27b-it:free" data-type="4" data-ver="Gemma">
+                    <div class="modelSingle" data-value="google/gemma-3-27b-it:free:online" data-type="4" data-ver="Gemma">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#geminiIcon"></use>
@@ -2749,13 +2749,13 @@
                         </div>
                         <div>Gemma</div>
                     </div>
-                    <div class="modelSingle" data-value="google/gemini-flash-1.5-8b-exp" data-type="4" data-ver="Gemini Flash 1.5">
+                    <div class="modelSingle" data-value="google/gemini-2.0-flash-lite-preview-02-05:free:online" data-type="4" data-ver="Gemini Flash 2.0">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#geminiIcon"></use>
                             </svg>
                         </div>
-                        <div>Gemini Flash 1.5</div>
+                        <div>Gemini Flash 2.0</div>
                     </div>
                     <div class="modelSingle hide" id="customGeminiDOM" data-type="4" data-value="" data-ver="">
                         <div class="modelAvatar">
@@ -2765,7 +2765,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="modelSingle" data-value="rekaai/reka-flash-3:free" data-type="5" data-ver="Reka">
+                    <div class="modelSingle" data-value="rekaai/reka-flash-3:free:online" data-type="5" data-ver="Reka">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#claudeIcon"></use>
@@ -2773,13 +2773,14 @@
                         </div>
                         <div>Reka</div>
                     </div>
-                    <div class="modelSingle" data-value="qwen/qwq-32b:free" data-type="5" data-ver="QwQ 32B">
+                    <div class="modelSingle" data-value="qwen/qwq-32b:free:online" data-type="5" data-ver="QwQ 32B">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#claudeIcon"></use>
                             </svg>
                         </div>
                         <div>QwQ 32B</div>
+                    </div>
                     <div class="modelSingle hide" id="customClaudeDOM" data-type="5" data-value="" data-ver="">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
@@ -7105,7 +7106,7 @@
             const modelsEle = Array.from(modelSetEle.children);
             let localModelName = localStorage.getItem("modelVersion");
             let isVailModel = modelsEle.some(item => item.dataset.value === localModelName)
-            modelVersion = isVailModel ? localModelName : "deepseek/deepseek-r1-distill-llama-70b:free:online";
+            modelVersion = isVailModel ? localModelName : "deepseek/deepseek-r1:free:online";
             const applyModelVersion = () => {
                 let activedEle = modelSetEle.querySelector(".activeModel");
                 if (activedEle) activedEle.classList.remove("activeModel");
