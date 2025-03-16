@@ -2717,21 +2717,21 @@
                     </button>
                 </div>
                 <div id="modelDialog" style="display:none;">
-                    <div class="modelSingle" data-value="deepseek/deepseek-r1:free:online" data-type="2" data-ver="Deepseek-R1-671B">
+                    <div class="modelSingle" data-value="deepseek/deepseek-r1:free" data-type="2" data-ver="Deepseek R1 671B">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#deepseekIcon"></use>
                             </svg>
                         </div>
-                        <div>Deepseek-R1-671B</div>
+                        <div>Deepseek R1 671B</div>
                     </div>
-                    <div class="modelSingle" data-value="deepseek/deepseek-r1-distill-llama-70b:free:online" data-type="2" data-ver="Deepseek-R1-70B">
+                    <div class="modelSingle" data-value="deepseek/deepseek-r1-distill-llama-70b:free" data-type="2" data-ver="Deepseek R1 70B">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#deepseekIcon"></use>
                             </svg>
                         </div>
-                        <div>Deepseek-R1-70B</div>
+                        <div>Deepseek R1 70B</div>
                     </div>
                     <div class="modelSingle hide" id="customDeepSeekDOM" data-type="2" data-value="" data-ver="">
                         <div class="modelAvatar">
@@ -2741,7 +2741,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="modelSingle" data-value="google/gemma-3-27b-it:free:online" data-type="4" data-ver="Gemma">
+                    <div class="modelSingle" data-value="google/gemma-3-27b-it:free" data-type="4" data-ver="Gemma">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#geminiIcon"></use>
@@ -2749,13 +2749,13 @@
                         </div>
                         <div>Gemma</div>
                     </div>
-                    <div class="modelSingle" data-value="google/gemini-2.0-flash-lite-preview-02-05:free:online" data-type="4" data-ver="Gemini-2.0-Flash-Lite">
+                    <div class="modelSingle" data-value="google/gemini-flash-1.5-8b-exp" data-type="4" data-ver="Gemini Flash 1.5">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#geminiIcon"></use>
                             </svg>
                         </div>
-                        <div>Gemini-2.0-Flash-Lite</div>
+                        <div>Gemini Flash 1.5</div>
                     </div>
                     <div class="modelSingle hide" id="customGeminiDOM" data-type="4" data-value="" data-ver="">
                         <div class="modelAvatar">
@@ -2765,7 +2765,7 @@
                         </div>
                         <div></div>
                     </div>
-                    <div class="modelSingle" data-value="rekaai/reka-flash-3:free:online" data-type="5" data-ver="Reka">
+                    <div class="modelSingle" data-value="rekaai/reka-flash-3:free" data-type="5" data-ver="Reka">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#claudeIcon"></use>
@@ -2773,14 +2773,13 @@
                         </div>
                         <div>Reka</div>
                     </div>
-                    <div class="modelSingle" data-value="moonshotai/moonlight-16b-a3b-instruct:free:online" data-type="5" data-ver="MoonShot">
+                    <div class="modelSingle" data-value="qwen/qwq-32b:free" data-type="5" data-ver="QwQ 32B">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#claudeIcon"></use>
                             </svg>
                         </div>
-                        <div>Moonshot</div>
-                    </div>
+                        <div>QwQ 32B</div>
                     <div class="modelSingle hide" id="customClaudeDOM" data-type="5" data-value="" data-ver="">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
@@ -8265,8 +8264,8 @@
                 url = "https://openrouter.ai/api/" + API_URL;
                 
                 // Define primary and fallback API keys
-                const primaryKey = "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";
-                const fallbackKey = "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";
+                const primaryKey = "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";
+                const fallbackKey = "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";
                 
                 // Use primary key if customAPIKey is true, otherwise use fallback key
                 headers["Authorization"] = `Bearer ${customAPIKey ? primaryKey : fallbackKey}`;
