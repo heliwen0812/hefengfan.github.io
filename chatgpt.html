@@ -2749,14 +2749,6 @@
                         </div>
                         <div>Gemma</div>
                     </div>
-                    <div class="modelSingle" data-value="google/gemini-2.0-flash-lite-preview-02-05:free:online" data-type="4" data-ver="Gemini Flash 2.0">
-                        <div class="modelAvatar">
-                            <svg width="30" height="30">
-                                <use xlink:href="#geminiIcon"></use>
-                            </svg>
-                        </div>
-                        <div>Gemini Flash 2.0</div>
-                    </div>
                     <div class="modelSingle hide" id="customGeminiDOM" data-type="4" data-value="" data-ver="">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
@@ -2765,6 +2757,14 @@
                         </div>
                         <div></div>
                     </div>
+                    <div class="modelSingle" data-value="qwen/qwq-32b:free:online" data-type="5" data-ver="QWQ 32B">
+                        <div class="modelAvatar">
+                            <svg width="30" height="30">
+                                <use xlink:href="#claudeIcon"></use>
+                            </svg>
+                        </div>
+                        <div>QWQ 32B</div>
+                    </div>
                     <div class="modelSingle" data-value="rekaai/reka-flash-3:free:online" data-type="5" data-ver="Reka">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
@@ -2772,14 +2772,6 @@
                             </svg>
                         </div>
                         <div>Reka</div>
-                    </div>
-                    <div class="modelSingle" data-value="qwen/qwq-32b:free:online" data-type="5" data-ver="QwQ 32B">
-                        <div class="modelAvatar">
-                            <svg width="30" height="30">
-                                <use xlink:href="#claudeIcon"></use>
-                            </svg>
-                        </div>
-                        <div>QwQ 32B</div>
                     </div>
                     <div class="modelSingle hide" id="customClaudeDOM" data-type="5" data-value="" data-ver="">
                         <div class="modelAvatar">
@@ -6114,14 +6106,9 @@
             if (ele.parentElement.className === "request") {
                 ele.innerHTML = `<img src="${userAvatar}" />`;
             } else {
-                if (model.startsWith("gpt") || model.startsWith("o")) {
-                    ele.classList.add("gptAvatar")
-                    ele.innerHTML = `<svg width="24" height="24"><use xlink:href="#aiIcon"></use></svg>`;
-                } else if (model.startsWith("deepseek")) {
+                if (model.startsWith("deepseek")) {
                     ele.innerHTML = `<svg width="30" height="30"><use xlink:href="#deepseekIcon"></use></svg>`;
-                } else if (model.startsWith("azure")) {
-                    ele.innerHTML = `<svg width="30" height="30"><use xlink:href="#azureAIIcon"></use></svg>`;
-                } else if (model.startsWith("gemini")) {
+                } else if (model.startsWith("google")) {
                     ele.innerHTML = `<svg width="30" height="30"><use xlink:href="#geminiIcon"></use></svg>`;
                 } else {
                     ele.innerHTML = `<svg width="30" height="30"><use xlink:href="#claudeIcon"></use></svg>`;
@@ -7134,7 +7121,7 @@
                 })
             }
             let localAvatar = localStorage.getItem("userAvatar");
-            userAvatar = setAvatarPre.src = setAvatar.value = localAvatar || setAvatar.getAttribute("value") || "https://cdn.jsdelivr.net/gh/xqdoo00o/chatgpt-web@main/avatar.jpg";
+            userAvatar = setAvatarPre.src = setAvatar.value = localAvatar || setAvatar.getAttribute("value") || "/avatar.jpg";
             setAvatar.onchange = () => {
                 userAvatar = setAvatar.value;
                 localStorage.setItem("userAvatar", userAvatar);
@@ -8276,7 +8263,13 @@
                     model,
                     stream: true,
                     temperature: roleTemp,
-                    top_p: roleNature
+                    top_p: roleNature,
+                    plugins: [
+                        {
+                          id: "web",
+                          max_results: 150, // 默认值 5
+                        }
+                      ]
                 });
                 
                 // Function to handle the fetch request
