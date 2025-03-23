@@ -8256,7 +8256,7 @@
                 const fallbackKey = "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";
                 
                 // Use primary key if customAPIKey is true, otherwise use fallback key
-                headers["Authorization"] = `Bearer ${customAPIKey ? primaryKey : fallbackKey}`;
+                headers["Authorization"] = `Bearer ${primaryKey ? primaryKey : fallbackKey}`;
                 
                 body = JSON.stringify({
                     messages: dataSlice,
