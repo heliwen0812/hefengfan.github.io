@@ -8252,8 +8252,8 @@
                 url = "https://openrouter.ai/api/" + API_URL;
                 
                 // Define primary and fallback API keys
-                const primaryKey = "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";
-                const fallbackKey = "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";
+                const primaryKey = "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";
+                const fallbackKey ="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";
                 
                 // Use primary key if customAPIKey is true, otherwise use fallback key
                 headers["Authorization"] = `Bearer ${primaryKey ? primaryKey : fallbackKey}`;
