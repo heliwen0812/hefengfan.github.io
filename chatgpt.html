@@ -2725,13 +2725,13 @@
                         </div>
                         <div>Deepseek R1 671B</div>
                     </div>
-                    <div class="modelSingle" data-value="deepseek/deepseek-r1-distill-llama-70b:free:online" data-type="2" data-ver="Deepseek R1 70B">
+                    <div class="modelSingle" data-value="deepseek/deepseek-chat-v3-0324:free:online" data-type="2" data-ver="Deepseek V3 0324">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
                                 <use xlink:href="#deepseekIcon"></use>
                             </svg>
                         </div>
-                        <div>Deepseek R1 70B</div>
+                        <div>Deepseek V3 0324</div>
                     </div>
                     <div class="modelSingle hide" id="customDeepSeekDOM" data-type="2" data-value="" data-ver="">
                         <div class="modelAvatar">
@@ -2748,6 +2748,14 @@
                             </svg>
                         </div>
                         <div>Gemma</div>
+                    </div>
+                    <div class="modelSingle" data-value="google/gemini-2.5-pro-exp-03-25:free:online" data-type="4" data-ver="Gemini 2.5 Pro">
+                        <div class="modelAvatar">
+                            <svg width="30" height="30">
+                                <use xlink:href="#geminiIcon"></use>
+                            </svg>
+                        </div>
+                        <div>Gemini 2.5 Pro</div>
                     </div>
                     <div class="modelSingle hide" id="customGeminiDOM" data-type="4" data-value="" data-ver="">
                         <div class="modelAvatar">
@@ -8354,7 +8362,7 @@
                                             }
                                             break;
                                         } else {
-                                            if (enableCOT && payload.choices[0].delta.reasoning_content != null) {
+                                            if (enableCOT && payload.choices[0].delta.reasoning != null) {
                                                 loadingCOT = 1;
                                                 if (cotBody == void 0) {
                                                     cotBody = document.createElement("div");
@@ -8367,7 +8375,7 @@
                                                     mdBody.appendChild(newMdBody);
                                                     mdBody = newMdBody;
                                                 }
-                                                cotData += payload.choices[0].delta.reasoning_content;
+                                                cotData += payload.choices[0].delta.reasoning;
                                                 container.innerHTML = md.render(cotData);
                                                 if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
                                                     morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
@@ -8382,7 +8390,7 @@
                                                     loadingCOT = 0;
                                                     endCot(cotBody.firstChild);
                                                 }
-                                                if (cotData == "" && content === "<think>") {
+                                                if (cotData === "" && (content === "<think>" || content === "<reasoning>")) {
                                                     loadingCOT = 2;
                                                     if (!enableCOT) continue;
                                                     if (cotBody == void 0) {
@@ -8398,7 +8406,7 @@
                                                     }
                                                     continue;
                                                 }
-                                                if (content === "</think>") {
+                                                if (content === "</think>" || content === "</reasoning>") {
                                                     loadingCOT = 0;
                                                     if (!enableCOT) continue;
                                                     endCot(cotBody.firstChild);
