@@ -2826,20 +2826,6 @@ body {
             }
           });
       
-          // Initialize theme based on saved preference
-          const currentTheme = localStorage.getItem('theme');
-          if (currentTheme) {
-              if (currentTheme === 'light') {
-                  themeToggle.checked = true; // Set the checkbox state
-                  setTheme('light'); // and set the theme.
-              }
-              //  else is implicitly dark, no need to do anything extra
-      
-          } else {
-              // Default to dark theme if no preference is stored
-              setTheme('dark'); // Ensure the default is applied
-          }
-      
           // --- Initialization ---
       
           if (typeof marked !== 'undefined') {
