@@ -12,36 +12,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Include highlight.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-
+    
     <style>
 /* --- Root Variables --- */
 :root {
-    /* Dark Theme */
-  --bg-primary: #000212;
-  --bg-secondary: #0A0A1B;
-  --accent-purple: #8B5CF6;
-  --accent-blue: #3B82F6;
-  --accent-pink: #EC4899;
-  --text-primary: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --blur-bg: rgba(255, 255, 255, 0.01);
-  --typing-indicator-bg: rgba(255, 255, 255, 0.1);
-  --typing-indicator-dot: #8B5CF6;
-  --results-border: rgba(139, 92, 246, 0.3);
-  --results-header-bg: rgba(139, 92, 246, 0.1);
-  --results-text: #e0e0e0;
-  --results-link: #90caf9;
-  --results-link-hover: #bbdefb;
-  --loading-animation-bg: rgba(139, 92, 246, 0.7);
-  --loading-animation-text: #FFFFFF;
-  --user-bubble: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-  --ai-bubble: rgba(255, 255, 255, 0.05);
-}
-
-/* Light Theme */
-[data-theme="light"] {
-  --bg-primary: #f9fafb;
+   --bg-primary: #f9fafb;
   --bg-secondary: #edf2f7;
   --accent-purple: #6c2bd9;
   --accent-blue: #2563eb;
@@ -1392,14 +1367,7 @@ body {
       <!-- Sidebar -->
       <aside class="sidebar">
           <div class="logo">Gemini</div>
-           <!-- Theme Switcher -->
-          <div class="theme-switch-wrapper">
-              <label class="theme-switch" for="checkbox">
-                  <input type="checkbox" id="checkbox" />
-                  <div class="slider round"></div>
-              </label>
-              <i id="theme-icon" class="fas fa-sun"></i>
-          </div>
+           
           <nav>
              <a href="#" class="nav-item active" data-section="chat">
                   <i class="fas fa-brain"></i>
@@ -1483,6 +1451,13 @@ body {
 </style>
 
 <script>
+    if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    registrations.forEach(registration => {
+      registration.unregister(); // 取消所有已注册的Service Worker
+    });
+  });
+}
     // 切换联网搜索状态
     document.getElementById("web-search-button").addEventListener("click", function() {
         const isEnabled = this.getAttribute("data-enabled") === "true";
