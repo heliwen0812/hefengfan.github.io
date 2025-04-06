@@ -2733,6 +2733,22 @@
                         </div>
                         <div>Deepseek V3 0324</div>
                     </div>
+                    <div class="modelSingle" data-value="deepseek-reasoner" data-type="2" data-ver="官网Deepseek R1(无联网)">
+                        <div class="modelAvatar gptAvatar">
+                            <svg width="30" height="30">
+                                <use xlink:href="#deepseekIcon"></use>
+                            </svg>
+                        </div>
+                        <div>官网Deepseek R1(无联网)</div>
+                    </div>
+                    <div class="modelSingle" data-value="deepseek-chat" data-type="2" data-ver="官网Deepseek V3(无联网)">
+                        <div class="modelAvatar gptAvatar">
+                            <svg width="30" height="30">
+                                <use xlink:href="#deepseekIcon"></use>
+                            </svg>
+                        </div>
+                        <div>官网Deepseek V3(无联网)</div>
+                    </div>
                     <div class="modelSingle hide" id="customDeepSeekDOM" data-type="2" data-value="" data-ver="">
                         <div class="modelAvatar">
                             <svg width="30" height="30">
@@ -8257,28 +8273,36 @@
                     if (item.role === "assistant") return { role: item.role, content: item.content };
                     else return item;
                 })
-                url = "https://openrouter.ai/api/" + API_URL;
-                
+                url = model.includes('reasoner')||model.includes('chat')?"https://api.deepseek.com/" + API_URL:"https://openrouter.ai/api/" + API_URL;
+
                 // Define primary and fallback API keys
                 const primaryKey = "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";
                 const fallbackKey ="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";
                 
                 // Use primary key if customAPIKey is true, otherwise use fallback key
-                headers["Authorization"] = `Bearer ${primaryKey ? primaryKey : fallbackKey}`;
+                // 设置认证头
+                headers["Authorization"] = model.includes('reasoner')||model.includes('chat')
+                  ? 'Bearer sk-a00fdc512cb44683a921260914228cd3'
+                  : `Bearer ${primaryKey || fallbackKey}`;
                 
-                body = JSON.stringify({
-                    messages: dataSlice,
-                    model,
-                    stream: true,
-                    temperature: roleTemp,
-                    top_p: roleNature,
-                    plugins: [
-                        {
-                          id: "web",
-                          max_results: 150, // 默认值 5
-                        }
-                      ]
-                });
+                // 构建请求体
+                const requestBody = {
+                  messages: dataSlice,
+                  model,
+                  stream: true,
+                  temperature: roleTemp,
+                  top_p: roleNature
+                };
+                
+                // 动态添加插件配置
+                if (!model.includes('reasoner')||!model.includes('chat')) {
+                  requestBody.plugins = [{
+                    id: "web",
+                    max_results: 150
+                  }];
+                }
+                
+                body = JSON.stringify(requestBody);
                 
                 // Function to handle the fetch request
                 const makeRequest = async () => {
@@ -8376,6 +8400,28 @@
                                                     mdBody = newMdBody;
                                                 }
                                                 cotData += payload.choices[0].delta.reasoning;
+                                                container.innerHTML = md.render(cotData);
+                                                if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
+                                                    morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
+                                                } else {
+                                                    morphdom(cotBody.lastChild, container, { childrenOnly: true });
+                                                }
+                                                scrollToBottom();
+                                            }
+                                            if (enableCOT && payload.choices[0].delta.reasoning_content!= null) {
+                                                loadingCOT = 1;
+                                                if (cotBody == void 0) {
+                                                    cotBody = document.createElement("div");
+                                                    cotBody.innerHTML = `<div class="cotBtn" data-i18n-key="thinking" onclick="toggleCot(this, event)"></div><div class="cotContent"></div>`
+                                                    mdBody.innerHTML = "";
+                                                    mdBody.appendChild(cotBody);
+                                                    cotBody.firstChild.textContent = translations[locale]["thinking"];
+                                                    let newMdBody = document.createElement("div");
+                                                    newMdBody.classList.add("markdown-body");
+                                                    mdBody.appendChild(newMdBody);
+                                                    mdBody = newMdBody;
+                                                }
+                                                cotData += payload.choices[0].delta.reasoning_content;
                                                 container.innerHTML = md.render(cotData);
                                                 if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
                                                     morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
