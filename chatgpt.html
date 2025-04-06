@@ -8295,7 +8295,7 @@
                 };
                 
                 // 动态添加插件配置
-                if (!model.includes('reasoner')||!model.includes('chat')) {
+                if (!model.includes('reasoner')&&!model.includes('chat')) {
                   requestBody.plugins = [{
                     id: "web",
                     max_results: 150
