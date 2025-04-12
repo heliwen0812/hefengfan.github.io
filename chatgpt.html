@@ -1904,6 +1904,53 @@
         .dataDetail>label:hover {
             background: var(--lighter-active-color);
         }
+        
+        /* Reasoning container styles */
+    .reasoning-container {
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    /* Thinking time and stats styles */
+    .thinking-time, .word-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.8em;
+        color: #888;
+        margin-left: 8px;
+    }
+    
+    .reasoning-stats {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: 8px;
+    }
+    
+    .cot-btn-content {
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    
+        /* Hover effects */
+        .cotBtn:hover .thinking-time, 
+        .cotBtn:hover .word-count {
+            color: #666;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .reasoning-stats {
+                gap: 4px;
+            }
+            .thinking-time, .word-count {
+                font-size: 0.7em;
+                margin-left: 4px;
+            }
+        }
 
         .keyOptionDetail {
             display: flex;
@@ -6660,10 +6707,39 @@
             }
         }
         const renderData = (dat) => {
-            let contentHTML = md.render(dat.content) || "<br />";
-            if (dat.reasoning_content) return `<div><div class="cotBtn endCot" data-i18n-key="thinked" onclick="toggleCot(this, event)">${translations[locale]["thinked"]}</div><div class="cotContent">${md.render(dat.reasoning_content)}</div></div><div class="markdown-body">${contentHTML}</div>`;
-            else return contentHTML;
+        let contentHTML = md.render(dat.content) || "<br />";
+        
+        if (dat.reasoning_content) {
+            // // Enhanced thinking time display with icon and tooltip
+            // const thinkingTime = thtime ? `
+            //     <span class="thinking-time" title="${translations[locale]['thinkingDuration']}">
+            //         ${dat.thinking_time}s
+            //     </span>
+            // ` : '';
+            
+            // // Add reasoning word count
+            // const wordCount = dat.reasoning_content.split(/\s+/).length;
+            // const reasoningStats = `
+            //     <span class="reasoning-stats">
+            //         ${thinkingTime}
+            //     </span>
+            // `;
+            
+            return `
+                <div class="reasoning-container">
+                    <div class="cotBtn endCot" data-i18n-key="thinked" onclick="toggleCot(this, event)">
+                        <span class="cot-btn-content">
+                            ${translations[locale]["thinked"]}
+                        </span>
+                    </div>
+                    <div class="cotContent">${md.render(dat.reasoning_content)}</div>
+                </div>
+                <div class="markdown-body">${contentHTML}</div>
+            `;
+        } else {
+            return contentHTML;
         }
+    };
         const activeChat = (ele) => {
             data = chatsData[activeChatIdx]["data"];
             allListEle.querySelectorAll(".activeChatLi").forEach(ele => {
@@ -8256,273 +8332,414 @@
                     autoVoiceDataIdx = currentVoiceIdx = idx;
                 }
             };
+            // MathJax Configuration with enhanced display settings
+            window.MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\$$', '\$$']],
+                displayMath: [['$$', '$$'], ['\$$', '\$$']],
+                processEscapes: true,
+                packages: {'[+]': ['ams', 'color']}
+              },
+              options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'no-mathjax'
+              },
+              chtml: {
+                displayAlign: 'center',  // Center display equations
+                displayIndent: '0em'     // No indentation
+              },
+              svg: {
+                displayAlign: 'center',  // Center display equations
+                displayIndent: '0em'     // No indentation
+              }
+            };
+            
+            // CSS for enlarged LaTeX display
+            const style = document.createElement('style');
+            style.textContent = `
+              .MathJax-display {
+                margin: 1em 0;
+                padding: 0.5em;
+                font-size: 1.2em;
+                overflow-x: auto;
+              }
+              .cotBtn {
+                position: relative;
+              }
+              .thinking-time {
+                font-size: 0.8em;
+                color: #888;
+                margin-left: 10px;
+              }
+            `;
+            document.head.appendChild(style);
+            
+            // Load MathJax dynamically
+            if (!document.getElementById('MathJax-script')) {
+              const mathJaxScript = document.createElement('script');
+              mathJaxScript.id = 'MathJax-script';
+              mathJaxScript.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js';
+              mathJaxScript.async = true;
+              document.head.appendChild(mathJaxScript);
+            }
+            
+            // Enhanced renderMathJax function with display style
+            const renderMathJax = (element) => {
+              if (typeof MathJax !== 'undefined') {
+                // Add display style class to all display math elements
+                const displayMaths = element.querySelectorAll('.MathJax-display');
+                displayMaths.forEach(math => {
+                  math.style.display = 'block';
+                  math.style.textAlign = 'center';
+                  math.style.margin = '1em 0';
+                  math.style.padding = '0.5em';
+                  math.style.fontSize = '1.2em';
+                });
+                
+                if (MathJax.typesetPromise) {
+                  MathJax.typesetPromise([element]).catch(err => {
+                    console.log('MathJax typeset error:', err);
+                    if (MathJax.typeset) {
+                      MathJax.typeset([element]);
+                    }
+                  });
+                } else if (MathJax.typeset) {
+                  MathJax.typeset([element]);
+                }
+              }
+            };
+            
+            // Track thinking time for CoT
+            let cotStartTime;
+            const updateThinkingTime = (cotBtn) => {
+              if (!cotStartTime) return;
+              const now = new Date();
+              const elapsed = Math.round((now - cotStartTime) / 1000);
+              let timeDisplay = cotBtn.querySelector('.thinking-time');
+              if (!timeDisplay) {
+                timeDisplay = document.createElement('span');
+                timeDisplay.className = 'thinking-time';
+                cotBtn.appendChild(timeDisplay);
+              }
+              timeDisplay.textContent = `${elapsed}s`;
+            };
+            
+            // Main processing function with thinking time tracking
             try {
-                let dataSlice;
-                if (long) {
-                    idx = isRefresh ? refreshIdx : data.length - 1;
-                    dataSlice = [data[idx - 1], data[idx]];
-                    if (systemRole) dataSlice.unshift(data[0]);
+              let dataSlice;
+              if (long) {
+                idx = isRefresh ? refreshIdx : data.length - 1;
+                dataSlice = [data[idx - 1], data[idx]];
+                if (systemRole) dataSlice.unshift(data[0]);
+              } else {
+                let startIdx = idx > contLen ? idx - contLen - 1 : 0;
+                dataSlice = data.slice(startIdx, idx);
+                if (systemRole && startIdx > 0) dataSlice.unshift(data[0]);
+              }
+            
+              let headers = { "Content-Type": "application/json" };
+              let url, body, model = currentModelName.split("|").pop();
+              
+              dataSlice = dataSlice.map(item => {
+                if (item.role === "assistant") return { role: item.role, content: item.content };
+                return item;
+              });
+            
+              url = model.includes('reasoner') || model.includes('chat')
+                ? "https://api.deepseek.com/" + API_URL
+                : "https://openrouter.ai/api/" + API_URL;
+            
+              // API keys configuration
+              const primaryKey = "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";
+              const fallbackKey = "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";
+              const deepseekKeys = [
+                "sk-a00fdc512cb44683a921260914228cd3",
+                "sk-5c2cb06f199e4256a33d4247abfa197e",
+                "sk-c13a63b8b4bf586b816dea45788d0",
+                "sk-4cf9d07a51a941a8bfa4ee5267325a91"
+              ];
+              let deepseekKeyIndex = 0;
+            
+              headers["Authorization"] = model.includes('reasoner') || model.includes('chat')
+                ? `Bearer ${deepseekKeys[deepseekKeyIndex]}`
+                : `Bearer ${primaryKey}`;
+            
+              const requestBody = {
+                messages: dataSlice,
+                model,
+                stream: true,
+                temperature: roleTemp,
+                top_p: roleNature
+              };
+            
+              if (!model.includes('reasoner') && !model.includes('chat')) {
+                requestBody.plugins = [{
+                  id: "web",
+                  max_results: 150
+                }];
+              }
+            
+              body = JSON.stringify(requestBody);
+            
+              const makeRequest = async (apiKey) => {
+                headers["Authorization"] = `Bearer ${apiKey}`;
+                const res = await fetch(url, {
+                  method: "POST",
+                  headers,
+                  body,
+                  signal: controller.signal
+                });
+                clearTimeout(controllerId);
+                controllerId = void 0;
+                return res;
+              };
+            
+              const handleError = (res) => {
+                if (res.status === 401) {
+                  notyf.error(translations[locale]["errorAiKeyTip"]);
+                } else if (res.status === 400 || res.status === 413) {
+                  notyf.error(translations[locale]["largeReqTip"]);
+                } else if (res.status === 404) {
+                  notyf.error(translations[locale]["noModelPerTip"]);
+                } else if (res.status === 429) {
+                  notyf.error(res.statusText ? translations[locale]["apiRateTip"] : translations[locale]["exceedLimitTip"]);
                 } else {
-                    let startIdx = idx > contLen ? idx - contLen - 1 : 0;
-                    dataSlice = data.slice(startIdx, idx);
-                    if (systemRole && startIdx > 0) dataSlice.unshift(data[0]);
+                  notyf.error(translations[locale]["badGateTip"]);
                 }
-                let headers = { "Content-Type": "application/json" };
-                let url, body, model = currentModelName.split("|").pop();
-                dataSlice = dataSlice.map(item => {
-                    if (item.role === "assistant") return { role: item.role, content: item.content };
-                    else return item;
-                })
-                url = model.includes('reasoner')||model.includes('chat')?"https://api.deepseek.com/" + API_URL:"https://openrouter.ai/api/" + API_URL;
-
-                // Define primary and fallback API keys
-                const primaryKey = "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";
-                const fallbackKey ="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";
-                
-                // Use primary key if customAPIKey is true, otherwise use fallback key
-                // 设置认证头
-                headers["Authorization"] = model.includes('reasoner')||model.includes('chat')
-                  ? 'Bearer sk-a00fdc512cb44683a921260914228cd3'
-                  : `Bearer ${primaryKey || fallbackKey}`;
-                
-                // 构建请求体
-                const requestBody = {
-                  messages: dataSlice,
-                  model,
-                  stream: true,
-                  temperature: roleTemp,
-                  top_p: roleNature
-                };
-                
-                // 动态添加插件配置
-                if (!model.includes('reasoner')&&!model.includes('chat')) {
-                  requestBody.plugins = [{
-                    id: "web",
-                    max_results: 150
-                  }];
+                stopLoading();
+              };
+            
+              let res = await makeRequest(model.includes('reasoner') || model.includes('chat')
+                ? deepseekKeys[deepseekKeyIndex]
+                : primaryKey);
+            
+              if (!res.ok) {
+                if (model.includes('reasoner') || model.includes('chat')) {
+                  deepseekKeyIndex = (deepseekKeyIndex + 1) % deepseekKeys.length;
+                  res = await makeRequest(deepseekKeys[deepseekKeyIndex]);
+                } else {
+                  res = await makeRequest(fallbackKey);
                 }
-                
-                body = JSON.stringify(requestBody);
-                
-                // Function to handle the fetch request
-                const makeRequest = async () => {
-                    const res = await fetch(url, {
-                        method: "POST",
-                        headers,
-                        body,
-                        signal: controller.signal
-                    });
-                    clearTimeout(controllerId);
-                    controllerId = void 0;
-                    return res;
-                };
-                
-                // Function to handle errors
-                const handleError = (res) => {
-                    if (res.status === 401) {
-                        notyf.error(translations[locale]["errorAiKeyTip"]);
-                    } else if (res.status === 400 || res.status === 413) {
-                        notyf.error(translations[locale]["largeReqTip"]);
-                    } else if (res.status === 404) {
-                        notyf.error(translations[locale]["noModelPerTip"]);
-                    } else if (res.status === 429) {
-                        notyf.error(res.statusText ? translations[locale]["apiRateTip"] : translations[locale]["exceedLimitTip"]);
-                    } else {
-                        notyf.error(translations[locale]["badGateTip"]);
-                    }
-                    stopLoading();
-                };
-                
-                // Attempt the request with the primary key first
-                let res = await makeRequest();
-                
-                // If the response is not OK (e.g., 401 Unauthorized), switch to the fallback key and retry
+            
                 if (!res.ok) {
-                    headers["Authorization"] = `Bearer ${fallbackKey}`;
-                    res = await makeRequest();
-                
-                    // If the fallback key also fails, handle the error
-                    if (!res.ok) {
-                        handleError(res);
-                        return;
-                    }
+                  handleError(res);
+                  return;
                 }
-                let container = document.createElement("div");
-                let cotBody;
-                let mdBody = currentResEle.children[1];
-                const decoder = new TextDecoder();
-                const reader = res.body.getReader();
-                let readChunk;
-                    readChunk = async () => {
-                        return reader.read().then(async ({ value, done }) => {
-                            if (!done) {
-                                value = decoder.decode(value);
-                                if (unexpectedCutOff) {
-                                    value += unexpectedCutOff;
-                                    unexpectedCutOff = "";
-                                };
-                                let chunks = value.match(/[^\n]+/g);
-                                if (!chunks) return readChunk();
-                                let payload;
-                                for (let i = 0; i < chunks.length; i++) {
-                                    let chunk = chunks[i];
-                                    if (chunk) {
-                                        try {
-                                            payload = JSON.parse(chunk.slice(5));
-                                        } catch (e) {
-                                            if (chunk.startsWith("data:")) unexpectedCutOff = chunk;
-                                            continue;
-                                        }
-                                        if (!payload.choices.length) continue;
-                                        if (payload.choices[0].finish_reason) {
-                                            let lenStop = payload.choices[0].finish_reason === "length";
-                                            longReplyFlag = enableLongReply && lenStop;
-                                            let ele = currentResEle.lastChild.children[0].children[0];
-                                            if (!enableLongReply && lenStop) { ele.className = "halfRefReq optionItem"; ele.title = translations[locale]["continue"] }
-                                            else { ele.className = "refreshReq optionItem"; ele.title = translations[locale]["refresh"] };
-                                            if (existVoice && enableAutoVoice && currentVoiceIdx === autoVoiceDataIdx) {
-                                                let voiceText = longReplyFlag ? "" : progressData.slice(autoVoiceIdx), stop = !longReplyFlag;
-                                                autoSpeechEvent(voiceText, currentResEle, false, stop);
-                                            }
-                                            break;
-                                        } else {
-                                            if (enableCOT && payload.choices[0].delta.reasoning != null) {
-                                                loadingCOT = 1;
-                                                if (cotBody == void 0) {
-                                                    cotBody = document.createElement("div");
-                                                    cotBody.innerHTML = `<div class="cotBtn" data-i18n-key="thinking" onclick="toggleCot(this, event)"></div><div class="cotContent"></div>`
-                                                    mdBody.innerHTML = "";
-                                                    mdBody.appendChild(cotBody);
-                                                    cotBody.firstChild.textContent = translations[locale]["thinking"];
-                                                    let newMdBody = document.createElement("div");
-                                                    newMdBody.classList.add("markdown-body");
-                                                    mdBody.appendChild(newMdBody);
-                                                    mdBody = newMdBody;
-                                                }
-                                                cotData += payload.choices[0].delta.reasoning;
-                                                container.innerHTML = md.render(cotData);
-                                                if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
-                                                    morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
-                                                } else {
-                                                    morphdom(cotBody.lastChild, container, { childrenOnly: true });
-                                                }
-                                                scrollToBottom();
-                                            }
-                                            if (enableCOT && payload.choices[0].delta.reasoning_content!= null) {
-                                                loadingCOT = 1;
-                                                if (cotBody == void 0) {
-                                                    cotBody = document.createElement("div");
-                                                    cotBody.innerHTML = `<div class="cotBtn" data-i18n-key="thinking" onclick="toggleCot(this, event)"></div><div class="cotContent"></div>`
-                                                    mdBody.innerHTML = "";
-                                                    mdBody.appendChild(cotBody);
-                                                    cotBody.firstChild.textContent = translations[locale]["thinking"];
-                                                    let newMdBody = document.createElement("div");
-                                                    newMdBody.classList.add("markdown-body");
-                                                    mdBody.appendChild(newMdBody);
-                                                    mdBody = newMdBody;
-                                                }
-                                                cotData += payload.choices[0].delta.reasoning_content;
-                                                container.innerHTML = md.render(cotData);
-                                                if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
-                                                    morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
-                                                } else {
-                                                    morphdom(cotBody.lastChild, container, { childrenOnly: true });
-                                                }
-                                                scrollToBottom();
-                                            }
-                                            let content = payload.choices[0].delta.content;
-                                            if (content != null && content !== "") {
-                                                if (loadingCOT == 1 && cotData) {
-                                                    loadingCOT = 0;
-                                                    endCot(cotBody.firstChild);
-                                                }
-                                                if (cotData === "" && (content === "<think>" || content === "<reasoning>")) {
-                                                    loadingCOT = 2;
-                                                    if (!enableCOT) continue;
-                                                    if (cotBody == void 0) {
-                                                        cotBody = document.createElement("div");
-                                                        cotBody.innerHTML = `<div class="cotBtn" data-i18n-key="thinking" onclick="toggleCot(this, event)"></div><div class="cotContent"></div>`
-                                                        mdBody.innerHTML = "";
-                                                        mdBody.appendChild(cotBody);
-                                                        cotBody.firstChild.textContent = translations[locale]["thinking"];
-                                                        let newMdBody = document.createElement("div");
-                                                        newMdBody.classList.add("markdown-body");
-                                                        mdBody.appendChild(newMdBody);
-                                                        mdBody = newMdBody;
-                                                    }
-                                                    continue;
-                                                }
-                                                if (content === "</think>" || content === "</reasoning>") {
-                                                    loadingCOT = 0;
-                                                    if (!enableCOT) continue;
-                                                    endCot(cotBody.firstChild);
-                                                    continue;
-                                                }
-                                                if (loadingCOT === 2) {
-                                                    if (!enableCOT) continue;
-                                                    cotData += content;
-                                                    container.innerHTML = md.render(cotData);
-                                                    if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
-                                                        morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
-                                                    } else {
-                                                        morphdom(cotBody.lastChild, container, { childrenOnly: true });
-                                                    }
-                                                    scrollToBottom();
-                                                    continue;
-                                                }
-                                                if (existVoice && enableAutoVoice && currentVoiceIdx === autoVoiceDataIdx) {
-                                                    let spliter = findLastSpecialCharIndex(content);
-                                                    if (spliter != -1) {
-                                                        let voiceText = progressData.slice(autoVoiceIdx) + content.slice(0, spliter + 1);
-                                                        autoVoiceIdx += voiceText.length;
-                                                        autoSpeechEvent(voiceText, currentResEle);
-                                                    }
-                                                }
-                                                if (progressData && textSpeed) await delay();
-                                                progressData += content;
-                                                container.innerHTML = md.render(progressData);
-                                                if (container.children.length > 1 && mdBody.children.length === container.children.length) {
-                                                    morphdom(mdBody.lastElementChild, container.lastElementChild);
-                                                } else {
-                                                    morphdom(mdBody, container, { childrenOnly: true });
-                                                }
-                                                scrollToBottom();
-                                            }
-                                        }
-                                    }
-                                }
-                                return readChunk();
-                            } else {
-                                if (isRefresh) {
-                                    data[refreshIdx].content = progressData;
-                                    data[refreshIdx].model = currentModelName;
-                                    if (cotData) data[refreshIdx].reasoning_content = cotData;
-                                    else delete data[refreshIdx].reasoning_content;
-                                } else {
-                                    if (long) {
-                                        data[data.length - 1].content = progressData;
-                                        if (cotData) data[data.length - 1].reasoning_content = cotData;
-                                        else delete data[data.length - 1].reasoning_content;
-                                    } else {
-                                        let dat = { role: "assistant", content: progressData, model: currentModelName };
-                                        if (cotData) dat.reasoning_content = cotData;
-                                        data.push(dat);
-                                    }
-                                }
-                                if (longReplyFlag) return streamGen(true);
-                                stopLoading(false);
+              }
+            
+              let container = document.createElement("div");
+              let cotBody;
+              let mdBody = currentResEle.children[1];
+              const decoder = new TextDecoder();
+              const reader = res.body.getReader();
+              let readChunk;
+            
+              readChunk = async () => {
+                return reader.read().then(async ({ value, done }) => {
+                  if (!done) {
+                    value = decoder.decode(value);
+                    if (unexpectedCutOff) {
+                      value += unexpectedCutOff;
+                      unexpectedCutOff = "";
+                    }
+                    let chunks = value.match(/[^\n]+/g);
+                    if (!chunks) return readChunk();
+                    
+                    let payload;
+                    for (let i = 0; i < chunks.length; i++) {
+                      let chunk = chunks[i];
+                      if (chunk) {
+                        try {
+                          payload = JSON.parse(chunk.slice(5));
+                        } catch (e) {
+                          if (chunk.startsWith("data:")) unexpectedCutOff = chunk;
+                          continue;
+                        }
+                        
+                        if (!payload.choices.length) continue;
+                        
+                        if (payload.choices[0].finish_reason) {
+                          let lenStop = payload.choices[0].finish_reason === "length";
+                          longReplyFlag = enableLongReply && lenStop;
+                          let ele = currentResEle.lastChild.children[0].children[0];
+                          if (!enableLongReply && lenStop) { 
+                            ele.className = "halfRefReq optionItem"; 
+                            ele.title = translations[locale]["continue"]; 
+                          } else { 
+                            ele.className = "refreshReq optionItem"; 
+                            ele.title = translations[locale]["refresh"]; 
+                          }
+                          
+                          if (existVoice && enableAutoVoice && currentVoiceIdx === autoVoiceDataIdx) {
+                            let voiceText = longReplyFlag ? "" : progressData.slice(autoVoiceIdx);
+                            let stop = !longReplyFlag;
+                            autoSpeechEvent(voiceText, currentResEle, false, stop);
+                          }
+                          break;
+                        } else {
+                          if (enableCOT && (payload.choices[0].delta.reasoning != null || payload.choices[0].delta.reasoning_content != null)) {
+                            if (!cotStartTime) {
+                              cotStartTime = new Date();
+                              // Start updating thinking time every second
+                              const cotBtn = cotBody?.firstChild;
+                              if (cotBtn) {
+                                const timer = setInterval(() => {
+                                  if (!cotBody) {
+                                    clearInterval(timer);
+                                    return;
+                                  }
+                                  updateThinkingTime(cotBtn);
+                                }, 1000);
+                              }
                             }
-                        });
-                    };
-                await readChunk();
-                container = null;
-            } catch (e) {
+                            
+                            loadingCOT = 1;
+                            if (cotBody == void 0) {
+                              cotBody = document.createElement("div");
+                              cotBody.innerHTML = `<div class="cotBtn" data-i18n-key="thinking" onclick="toggleCot(this, event)"></div><div class="cotContent"></div>`;
+                              mdBody.innerHTML = "";
+                              mdBody.appendChild(cotBody);
+                              cotBody.firstChild.textContent = translations[locale]["thinking"];
+                              let newMdBody = document.createElement("div");
+                              newMdBody.classList.add("markdown-body");
+                              mdBody.appendChild(newMdBody);
+                              mdBody = newMdBody;
+                            }
+                            
+                            cotData += payload.choices[0].delta.reasoning || payload.choices[0].delta.reasoning_content;
+                            container.innerHTML = md.render(cotData);
+                            
+                            if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
+                              morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
+                            } else {
+                              morphdom(cotBody.lastChild, container, { childrenOnly: true });
+                            }
+                            
+                            // Update thinking time immediately
+                            updateThinkingTime(cotBody.firstChild);
+                            scrollToBottom();
+                          }
+                          
+                          let content = payload.choices[0].delta.content;
+                          if (content != null && content !== "") {
+                            if (loadingCOT == 1 && cotData) {
+                              loadingCOT = 0;
+                              endCot(cotBody.firstChild);
+                              cotStartTime = null; // Reset thinking timer
+                            }
+                            
+                            if (cotData === "" && (content === "<think>" || content === "<reasoning>")) {
+                              loadingCOT = 2;
+                              cotStartTime = new Date(); // Start thinking timer
+                              if (!enableCOT) continue;
+                              if (cotBody == void 0) {
+                                cotBody = document.createElement("div");
+                                cotBody.innerHTML = `
+                                  <div class="cotBtn" data-i18n-key="thinking" onclick="toggleCot(this, event)"></div>
+                                  <div class="cotContent"></div>`;
+                                mdBody.innerHTML = "";
+                                mdBody.appendChild(cotBody);
+                                cotBody.firstChild.textContent = translations[locale]["thinking"];
+                                let newMdBody = document.createElement("div");
+                                newMdBody.classList.add("markdown-body");
+                                mdBody.appendChild(newMdBody);
+                                mdBody = newMdBody;
+                              }
+                              const endTime = new Date();
+                              const thinkingTime = Math.round((endTime - cotStartTime) / 1000);
+                              let thtime = thinkingTime;
+                              continue;
+                            }
+                            
+                            if (content === "</think>" || content === "</reasoning>") {
+                              loadingCOT = 0;
+                              cotStartTime = null; // Reset thinking timer
+                              if (!enableCOT) continue;
+                              endCot(cotBody.firstChild);
+                              continue;
+                            }
+                            
+                            if (loadingCOT === 2) {
+                              if (!enableCOT) continue;
+                              cotData += content;
+                              container.innerHTML = md.render(cotData);
+                              if (container.children.length > 1 && cotBody.lastChild.children.length === container.children.length) {
+                                morphdom(cotBody.lastChild.lastElementChild, container.lastElementChild);
+                              } else {
+                                morphdom(cotBody.lastChild, container, { childrenOnly: true });
+                              }
+                              renderMathJax(cotBody.lastChild);
+                              updateThinkingTime(cotBody.firstChild);
+                              scrollToBottom();
+                              continue;
+                            }
+                            
+                            // Handle voice synthesis if enabled
+                            if (existVoice && enableAutoVoice && currentVoiceIdx === autoVoiceDataIdx) {
+                              let spliter = findLastSpecialCharIndex(content);
+                              if (spliter != -1) {
+                                let voiceText = progressData.slice(autoVoiceIdx) + content.slice(0, spliter + 1);
+                                autoVoiceIdx += voiceText.length;
+                                autoSpeechEvent(voiceText, currentResEle);
+                              }
+                            }
+                            
+                            // Render main content with LaTeX support
+                            if (progressData && textSpeed) await delay();
+                            progressData += content;
+                            container.innerHTML = md.render(progressData);
+                            
+                            if (container.children.length > 1 && mdBody.children.length === container.children.length) {
+                              morphdom(mdBody.lastElementChild, container.lastElementChild);
+                            } else {
+                              morphdom(mdBody, container, { childrenOnly: true });
+                            }
+                            
+                            renderMathJax(mdBody);
+                            scrollToBottom();
+                          }
+                        }
+                      }
+                    }
+                    return readChunk();
+                  } else {
+                    // Final processing when stream ends
+                    if (isRefresh) {
+                      data[refreshIdx].content = progressData;
+                      data[refreshIdx].model = currentModelName;
+                      if (cotData) data[refreshIdx].reasoning_content = cotData;
+                      else delete data[refreshIdx].reasoning_content;
+                    } else {
+                      if (long) {
+                        data[data.length - 1].content = progressData;
+                        if (cotData) data[data.length - 1].reasoning_content = cotData;
+                        else delete data[data.length - 1].reasoning_content;
+                      } else {
+                        let dat = { 
+                          role: "assistant", 
+                          content: progressData, 
+                          model: currentModelName 
+                        };
+                        if (cotData) dat.reasoning_content = cotData;
+                        data.push(dat);
+                      }
+                    }
+                    
+                    if (longReplyFlag) return streamGen(true);
+                    stopLoading(false);
+                  }
+                });
+              };
+              
+              await readChunk();
+              container = null;
+            }catch (e) {
                 if (e.message.indexOf("aborted") === -1) {
                     notyf.error(translations[locale]["badEndpointTip"])
                     stopLoading();
+                    }
                 }
-            }
-        };
+            };
         const loadAction = (bool) => {
             loading = bool;
             sendBtnEle.disabled = bool;
